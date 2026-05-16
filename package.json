@@ -1,0 +1,33 @@
+{
+  "name": "webcodecs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "test:e2e": "npm run build:test && playwright test",
+    "build:test": "mkdir -p build_test && sass src/style.scss build_test/style.css --no-source-map && cp src/index.html build_test/ && esbuild src/main.js --bundle --format=iife --outfile=build_test/main.js",
+    "build:dev": "mkdir -p build && sass src/style.scss build/style.css --no-source-map && cp src/index.html build/ && esbuild src/main.js --bundle --format=iife --outfile=build/main.js",
+    "start": "mkdir -p dev && cp src/index.html dev/ && concurrently --names \"SASS,JS,SRV\" --prefix-colors \"cyan,yellow,green\" \"sass --watch src/style.scss:dev/style.css\" \"esbuild src/main.js --bundle --format=iife --outfile=dev/main.js --watch\" \"browser-sync start --server dev --watch --files 'dev/**/*'\"",
+    "build": "npm test && npm run test:e2e && sass src/style.scss build/style.css --style=compressed --no-source-map && cp src/index.html build/ && esbuild src/main.js --bundle --minify --format=iife --outfile=build/main.js && javascript-obfuscator build/main.js --output build/main.js"
+  },
+  "jest": {
+    "testMatch": ["<rootDir>/src/**/*.test.js"],
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.27.0",
+    "@babel/preset-env": "^7.27.0",
+    "@playwright/test": "^1.52.0",
+    "babel-jest": "^29.7.0",
+    "browser-sync": "^3.0.4",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.0",
+    "javascript-obfuscator": "^4.1.1",
+    "jest": "^29.7.0",
+    "sass": "^1.87.0",
+    "terser": "^5.39.0"
+  }
+}

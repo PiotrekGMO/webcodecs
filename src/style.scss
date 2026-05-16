@@ -1,0 +1,233 @@
+// ── Variables ──────────────────────────────────────────────────────
+$bg-dark:        #000;
+$bg-light:       #fff;
+$primary:        #2563eb;
+$primary-dark:   #1d4ed8;
+$accent:         #22c55e;
+$surface:        #111;
+$surface-deep:   #0a0a0a;
+$surface-light:  #ddd;
+$border-muted:   #333;
+$text-muted:     #555;
+$text-lighter:   #aaa;
+$label-color:    #888;
+$status-color:   #bbb;
+$codec-color:    #666;
+$frame-num:      #6b7280;
+$heading-color:  #d1d5db;
+$warn-bg:        #7f1d1d;
+$warn-text:      #fca5a5;
+$warn-border:    #991b1b;
+$badge-b-bg:     #1e293b;
+$badge-b-text:   #94a3b8;
+$badge-b-border: #334155;
+$badge-w-bg:     #f1f5f9;
+$badge-w-text:   #475569;
+$badge-w-border: #cbd5e1;
+$badge-key:      #d97706;
+
+// ── Reset ──────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+// ── Flash surface ──────────────────────────────────────────────────
+html, body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  background: $bg-dark;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: $bg-light;
+
+  &.flash-white {
+    background: $bg-light;
+
+    h1,
+    #status-text,
+    #pattern-label,
+    #codec-info { color: $bg-dark; text-shadow: none; }
+
+    #output-section h2 { color: $surface; }
+  }
+}
+
+// ── App shell ──────────────────────────────────────────────────────
+#app {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 48px;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+// ── Camera preview ─────────────────────────────────────────────────
+#preview {
+  width: min(100%, 480px);
+  aspect-ratio: 4/3;
+  background: $surface;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  display: block;
+}
+
+// ── Pattern track ──────────────────────────────────────────────────
+#pattern-label { font-size: 0.78rem; color: $label-color; }
+
+#pattern-track {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pbit {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  border: 2px solid $border-muted;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: $text-muted;
+  background: $surface-deep;
+  transition: box-shadow 0.1s;
+
+  &.bit-w  { background: $surface-light; color: $text-lighter; border-color: $text-lighter; }
+  &.active { border-color: $accent; box-shadow: 0 0 0 3px rgba($accent, 0.33); color: $accent; }
+  &.done   { opacity: 0.55; }
+}
+
+// ── Progress bar ───────────────────────────────────────────────────
+#progress-wrap {
+  width: min(100%, 480px);
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#progress {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, $primary, $accent);
+  border-radius: 3px;
+  transition: width 0.35s;
+}
+
+// ── Controls ───────────────────────────────────────────────────────
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#status-text {
+  font-size: 0.88rem;
+  color: $status-color;
+  text-align: center;
+  min-height: 1.4em;
+}
+
+#codec-info {
+  font-size: 0.76rem;
+  color: $codec-color;
+  min-height: 1em;
+}
+
+#startBtn {
+  padding: 12px 38px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: $primary;
+  color: $bg-light;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) { background: $primary-dark; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+// ── Output frames ──────────────────────────────────────────────────
+#output-section {
+  width: min(100%, 960px);
+
+  h2 {
+    margin-bottom: 16px;
+    font-size: 1.05rem;
+    color: $heading-color;
+  }
+}
+
+#frames-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.frame-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  canvas {
+    display: block;
+    width: 148px;
+    height: auto;
+    border-radius: 4px;
+  }
+}
+
+.frame-meta {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.badge {
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+
+  &-b   { background: $badge-b-bg; color: $badge-b-text; border: 1px solid $badge-b-border; }
+  &-w   { background: $badge-w-bg; color: $badge-w-text; border: 1px solid $badge-w-border; }
+  &-key { background: $badge-key; color: $bg-light; }
+}
+
+.frame-num { color: $frame-num; }
+
+// ── Support warning ────────────────────────────────────────────────
+#support-warn {
+  display: none;
+  background: $warn-bg;
+  color: $warn-text;
+  border: 1px solid $warn-border;
+  border-radius: 10px;
+  padding: 20px 28px;
+  text-align: center;
+  max-width: 540px;
+  line-height: 1.6;
+}

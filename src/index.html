@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebCodecs Frame Capture</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <h1>WebCodecs Frame Capture</h1>
+
+    <div id="support-warn">
+      <strong>WebCodecs API not available.</strong><br>
+      This demo requires <strong>Chrome 94+</strong> on Desktop or Android.<br>
+      No other browsers currently support VideoEncoder / VideoDecoder.
+    </div>
+
+    <video id="preview" autoplay playsinline muted></video>
+
+    <div id="pattern-label">Capture pattern — B&nbsp;=&nbsp;black screen, W&nbsp;=&nbsp;white screen</div>
+    <div id="pattern-track"></div>
+
+    <div id="progress-wrap"><div id="progress"></div></div>
+
+    <div id="controls">
+      <div id="status-text">Click Start to initialise the camera and begin the 10&nbsp;s capture.</div>
+      <div id="codec-info"></div>
+      <button id="startBtn">&#9654; Start 10 s Capture</button>
+    </div>
+
+    <div id="output-section" style="display:none">
+      <h2 id="output-heading"></h2>
+      <div id="frames-grid"></div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
